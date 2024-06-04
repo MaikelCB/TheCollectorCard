@@ -1,6 +1,7 @@
 import flet as ft
 from control.digicard_control import DigiCardController
 
+
 class HomeView:
     def __init__(self, page: ft.Page):
         self.page = page
@@ -11,7 +12,8 @@ class HomeView:
         self.cards_per_page = 54
         self.total_pages = 1
         self.all_cards = []
-        self.pagination_container = ft.Container()  # Contenedor para botones de paginación
+        self.filtrado_container = ft.Container()  # Contenedor para filtrado
+        self.pagination_container = ft.Container()  # Contenedor para paginación
         self.digimon_visible = False
 
     def mostrar(self):
@@ -66,8 +68,9 @@ class HomeView:
                 controls=[
                     header,
                     category_buttons,
+                    self.filtrado_container,
                     self.card_row_container,
-                    self.pagination_container  # Contenedor para botones de paginación
+                    self.pagination_container
                 ],
                 alignment=ft.MainAxisAlignment.START,
                 expand=True
@@ -93,16 +96,13 @@ class HomeView:
     def go_home(self, e):
         self.page.go('/')
 
-    def toggle_cards(self, e):
-        self.card_row_container.visible = not self.card_row_container.visible
-        self.page.update()
-
     def cargar_pokemon(self, e):
         # Implementar lógica de carga de cartas de Pokemon
         pass
 
     def cargar_digimon(self, e):
         if self.digimon_visible:
+            self.filtrado_container.visible = False
             self.card_row_container.visible = False
             self.pagination_container.visible = False
             self.digimon_visible = False
@@ -113,6 +113,7 @@ class HomeView:
             self.total_pages = (len(self.all_cards) + self.cards_per_page - 1) // self.cards_per_page
             self.mostrar_pagina(self.current_page)
             self.digimon_visible = True
+        self.page.update()
 
     def cargar_yugioh(self, e):
         # Implementar lógica de carga de cartas de Yugioh
@@ -136,10 +137,23 @@ class HomeView:
                 )
             )
 
+        self.mostrar_filtro()
         self.card_row_container.content = card_row
         self.card_row_container.visible = True
         self.page.update()
         self.mostrar_paginacion()
+
+    def mostrar_filtro(self):
+        filtrado_row = ft.Row(
+            controls=[
+                ft.Text("Filtro"),
+                ft.IconButton(icon=ft.icons.FILTER_LIST)
+            ],
+            alignment=ft.MainAxisAlignment.END,
+        )
+        self.filtrado_container.content = filtrado_row
+        self.filtrado_container.visible = True
+        self.page.update()
 
     def mostrar_paginacion(self):
         if self.total_pages <= 1:
@@ -188,28 +202,44 @@ class HomeView:
         if self.details_panel:
             self.page.overlay.remove(self.details_panel)
 
+        # Construir la URL de la imagen proxy
         image_proxy_url = f"{self.digicard_controller.proxy_url}{carta.image_url}"
+
+        # Crear la lista de controles con todos los detalles de la carta
+        detalles_carta = [
+            ft.Text(f"Name: {carta.name}", size=20, weight="bold"),
+            ft.Text(f"Type: {carta.type}"),
+            ft.Text(f"Color: {carta.color}"),
+            ft.Text(f"Stage: {carta.stage}"),
+            ft.Text(f"Digi Type: {carta.digi_type}"),
+            ft.Text(f"Attribute: {carta.attribute}"),
+            ft.Text(f"Level: {carta.level}"),
+            ft.Text(f"Play Cost: {carta.play_cost}"),
+            ft.Text(f"Evolution Cost: {carta.evolution_cost}"),
+            ft.Text(f"Rarity: {carta.cardrarity}"),
+            ft.Text(f"Artist: {carta.artist}"),
+            ft.Text(f"DP: {carta.dp}"),
+            ft.Text(f"Card Number: {carta.cardnumber}"),
+            ft.Text(f"Main Effect: {carta.maineffect}"),
+            ft.Text(f"Source Effect: {carta.soureeffect}"),
+            ft.Text(f"Set Name: {carta.set_name}")
+        ]
+
+        # Crear el contenedor de detalles de la carta
         self.details_panel = ft.Container(
             content=ft.Row(
                 controls=[
-                    ft.Image(src=image_proxy_url, width=300, height=300),
+                    ft.Image(src=image_proxy_url, width=400, height=400),
                     ft.Column(
-                        controls=[
-                            ft.Text(f"Name: {carta.name}", size=20, weight="bold"),
-                            ft.Text(f"Type: {carta.type}"),
-                            ft.Text(f"Color: {carta.color}"),
-                            ft.Text(f"Stage: {carta.stage}"),
-                            ft.Text(f"Rarity: {carta.cardrarity}"),
-                            ft.Text(f"Set Name: {carta.set_name}"),
-                            # Añadir más campos según sea necesario
-                        ],
-                        alignment=ft.MainAxisAlignment.START
+                        controls=detalles_carta,
+                        alignment=ft.MainAxisAlignment.START,
+                        scroll=ft.ScrollMode.AUTO  # Añadir scroll si los detalles son demasiados
                     )
                 ],
                 alignment=ft.MainAxisAlignment.START,
             ),
             alignment=ft.alignment.center,
-            padding=ft.padding.all(0),
+            padding=ft.padding.all(10),
             bgcolor=ft.colors.WHITE,
             border_radius=ft.border_radius.all(10),
             shadow=ft.BoxShadow(
@@ -217,9 +247,18 @@ class HomeView:
                 blur_radius=10,
                 spread_radius=5,
                 offset=ft.Offset(2, 2)
-            )
+            ),
+            width=900,  # Ancho del panel
+            height=800,  # Alto del panel
+            on_click=self.cerrar_panel_detalles  # Manejar click fuera del panel
         )
 
         # Añadir el panel de detalles como overlay
         self.page.overlay.append(self.details_panel)
+        self.page.update()
+
+    def cerrar_panel_detalles(self, e):
+        # Cerrar el panel de detalles si se hace clic fuera de él
+        self.page.overlay.remove(self.details_panel)
+        self.details_panel = None
         self.page.update()
