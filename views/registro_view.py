@@ -1,6 +1,5 @@
 import flet as ft
 
-
 class RegistroView:
     def __init__(self, page: ft.Page):
         self.page = page
@@ -12,7 +11,7 @@ class RegistroView:
             ft.Column([
                 ft.Container(
                     ft.Text(
-                        "Iniciar Sesión",
+                        "Registro",
                         width=320,
                         size=30,
                         text_align="center",
@@ -52,13 +51,13 @@ class RegistroView:
                 ),
                 ft.Container(
                     ft.ElevatedButton(
-                        text="INICIAR",
+                        text="REGISTRARSE",
                         width=280,
                         bgcolor="black"
                     ),
                     padding=ft.padding.only(20, 20)
                 ),
-                ft.Text("Iniciar sesión con",
+                ft.Text("Registrarse con",
                         text_align="center",
                         width=320,
                         ),
@@ -86,13 +85,12 @@ class RegistroView:
                 ),
                 ft.Container(
                     ft.Row([
-                        ft.Text("¿No tienes una cuenta?"),
-                        ft.TextButton("Crear cuenta")
+                        ft.Text("¿Ya tienes una cuenta?"),
+                        ft.TextButton("Iniciar sesión", on_click=lambda _: self.page.go('/login'))
                     ],
                         alignment=ft.MainAxisAlignment.CENTER
                     ),
                     padding=ft.padding.only(20, 20)
-
                 )
             ],
                 alignment=ft.MainAxisAlignment.SPACE_EVENLY
@@ -105,11 +103,18 @@ class RegistroView:
                 ft.colors.PURPLE,
                 ft.colors.PINK,
                 ft.colors.RED,
-            ])
+            ]),
+            padding=ft.padding.all(0),
+            margin=ft.margin.all(0),
         )
 
         self.page.views.append(ft.View(
             "/registro",
             controls=[container],
+            padding=ft.padding.all(0),
+            vertical_alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            bgcolor=ft.colors.BLACK
         ))
         self.page.update()
+        

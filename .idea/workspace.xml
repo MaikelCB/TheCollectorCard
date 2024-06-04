@@ -5,26 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="88dff0ea-d08f-4d9f-9b90-384f7d37224d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/TheCollectorCard.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/control/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/control/digicard_control.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/control/user_control.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/digicard.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/digicoleccion.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/user.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proxy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/home_view.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/interfaz.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/login_view.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/registro_view.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img/a.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/control/digicard_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control/digicard_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/home_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/home_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/login_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/login_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/registro_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/registro_view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,15 +36,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "Python.proxy.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/maike/PycharmProjects/TheCollectorCard/control"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.proxy.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/maike/PycharmProjects/TheCollectorCard&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\control" />
@@ -66,6 +52,7 @@
       <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\models" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\img" />
       <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\control" />
     </key>
   </component>
