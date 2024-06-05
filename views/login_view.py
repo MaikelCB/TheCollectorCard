@@ -1,5 +1,6 @@
 import flet as ft
 
+
 class LoginView:
     def __init__(self, page: ft.Page):
         page.vertical_alignment = ft.MainAxisAlignment.CENTER

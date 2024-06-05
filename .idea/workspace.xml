@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88dff0ea-d08f-4d9f-9b90-384f7d37224d" name="Changes" comment="Actualizacion de vistas. 0406">
+    <list default="true" id="88dff0ea-d08f-4d9f-9b90-384f7d37224d" name="Changes" comment="Re version de vistas. 0506">
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/home_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/home_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/control/user_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control/user_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/login_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/login_view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/registro_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/registro_view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,18 +26,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "MaikelCB"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MaikelCB&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/MaikelCB/TheCollectorCard.git",
-    "accountId": "47edd015-bd38-497e-9366-f8c3c1a5d0ad"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MaikelCB/TheCollectorCard.git&quot;,
+    &quot;accountId&quot;: &quot;47edd015-bd38-497e-9366-f8c3c1a5d0ad&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -89,11 +91,20 @@
       <option name="project" value="LOCAL" />
       <updated>1717531887245</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Re version de vistas. 0506">
+      <option name="closed" value="true" />
+      <created>1717538778758</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1717538778758</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Actualizacion de vistas. 0406" />
-    <option name="LAST_COMMIT_MESSAGE" value="Actualizacion de vistas. 0406" />
+    <MESSAGE value="Re version de vistas. 0506" />
+    <option name="LAST_COMMIT_MESSAGE" value="Re version de vistas. 0506" />
   </component>
 </project>

@@ -1,11 +1,52 @@
 import flet as ft
+from control.user_control import UsuarioController
+
 
 class RegistroView:
     def __init__(self, page: ft.Page):
         self.page = page
+        self.controller = UsuarioController()
 
     def mostrar(self):
         self.page.views.clear()
+
+        self.nombre_input = ft.TextField(
+            width=360,
+            height=40,
+            hint_text="Nombre/Usuario",
+            border="underline",
+            color="black",
+            prefix_icon=ft.icons.PERSON,
+        )
+
+        self.email_input = ft.TextField(
+            width=360,
+            height=40,
+            hint_text="Correo electrónico",
+            border="underline",
+            color="black",
+            prefix_icon=ft.icons.EMAIL,
+        )
+
+        self.password_input = ft.TextField(
+            width=360,
+            height=40,
+            hint_text="Contraseña",
+            border="underline",
+            color="black",
+            prefix_icon=ft.icons.LOCK,
+            password=True,
+        )
+
+        self.confirm_password_input = ft.TextField(
+            width=360,
+            height=40,
+            hint_text="Confirmar contraseña",
+            border="underline",
+            color="black",
+            prefix_icon=ft.icons.LOCK,
+            password=True,
+        )
 
         header = ft.Container(
             content=ft.Row(
@@ -43,49 +84,19 @@ class RegistroView:
                     padding=ft.padding.only(top=20, bottom=20)
                 ),
                 ft.Container(
-                    ft.TextField(
-                        width=360,
-                        height=40,
-                        hint_text="Nombre/Usuario",
-                        border="underline",
-                        color="black",
-                        prefix_icon=ft.icons.PERSON,
-                    ),
+                    self.nombre_input,
                     padding=ft.padding.symmetric(horizontal=20, vertical=10)
                 ),
                 ft.Container(
-                    ft.TextField(
-                        width=360,
-                        height=40,
-                        hint_text="Correo electrónico",
-                        border="underline",
-                        color="black",
-                        prefix_icon=ft.icons.EMAIL,
-                    ),
+                    self.email_input,
                     padding=ft.padding.symmetric(horizontal=20, vertical=10)
                 ),
                 ft.Container(
-                    ft.TextField(
-                        width=360,
-                        height=40,
-                        hint_text="Contraseña",
-                        border="underline",
-                        color="black",
-                        prefix_icon=ft.icons.LOCK,
-                        password=True,
-                    ),
+                    self.password_input,
                     padding=ft.padding.symmetric(horizontal=20, vertical=10)
                 ),
                 ft.Container(
-                    ft.TextField(
-                        width=360,
-                        height=40,
-                        hint_text="Confirmar contraseña",
-                        border="underline",
-                        color="black",
-                        prefix_icon=ft.icons.LOCK,
-                        password=True,
-                    ),
+                    self.confirm_password_input,
                     padding=ft.padding.symmetric(horizontal=20, vertical=10)
                 ),
                 ft.Container(
@@ -147,5 +158,25 @@ class RegistroView:
         self.page.update()
 
     def registrar_usuario(self, e):
-        # Implementar lógica de registro de usuario
-        pass
+        nombre = self.nombre_input.value
+        email = self.email_input.value
+        password = self.password_input.value
+        confirm_password = self.confirm_password_input.value
+
+        if password != confirm_password:
+            self.password_input.value = ""
+            self.confirm_password_input.value = ""
+            self.page.update()
+            return
+
+        result = self.controller.registrar_usuario(nombre, email, password)
+
+        if result["status"] == "error":
+            if "ErrorEmail" in result["message"]:
+                self.email_input.bgcolor = ft.colors.BLACK
+            if "ErrorPWD" in result["message"]:
+                self.password_input.bgcolor = ft.colors.BLACK
+                self.confirm_password_input.bgcolor = ft.colors.BLACK
+            self.page.update()
+        else:
+            self.page.go("/login")
