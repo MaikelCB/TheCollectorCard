@@ -1,5 +1,6 @@
 import flet as ft
 from control.digicard_control import DigiCardController
+from .components import get_header
 
 
 class HomeView:
@@ -20,29 +21,7 @@ class HomeView:
         self.page.views.clear()
 
         # Crear el encabezado (header)
-        header = ft.Container(
-            content=ft.Row(
-                controls=[
-                    ft.IconButton(icon=ft.icons.HOME, on_click=self.go_home),
-                    ft.Row(
-                        controls=[
-                            ft.ElevatedButton("Login", on_click=lambda _: self.page.go('/login')),
-                            ft.ElevatedButton("Registro", on_click=lambda _: self.page.go('/registro')),
-                        ],
-                        alignment=ft.MainAxisAlignment.END,
-                    ),
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-            ),
-            gradient=ft.LinearGradient(
-                begin=ft.alignment.top_left,
-                end=ft.alignment.bottom_right,
-                colors=[ft.colors.GREEN, ft.colors.BLUE],
-            ),
-            padding=ft.padding.all(10),
-            margin=ft.margin.all(0),
-            expand=False,
-        )
+        header = get_header(self.page)
 
         # Crear botones de categorías
         category_buttons = ft.Row(

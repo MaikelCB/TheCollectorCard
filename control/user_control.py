@@ -1,29 +1,33 @@
 from email_validator import validate_email, EmailNotValidError
-from passlib.hash import bcrypt
-import sqlite3
+from sqlalchemy.orm import Session
+from api.models import Usuario
+from api.schemas import UsuarioCreate
+from api.bcrypt_wrapper import verify_password, get_password_hash
 
 
 class UsuarioController:
-
-    def registrar_usuario(self, nombre, email, password):
-        # Validar email
+    def registrar_usuario(self, db: Session, usuario: UsuarioCreate):
         try:
-            valid = validate_email(email)
-            email = valid.normalized
-        except EmailNotValidError as e:
-            return {"status": "error", "message": "ErrorEmail"}
+            # Validar email
+            try:
+                valid = validate_email(usuario.email)
+                email = valid.email
+            except EmailNotValidError:
+                return {"status": "error", "detail": "Invalid email"}
 
-        # Validar contraseña
-        if len(password) < 8:
-            return {"status": "error", "message": "ErrorPWD"}
+            # Validar contraseña
+            if len(usuario.password) < 8:
+                return {"status": "error", "detail": "Password too short"}
 
-        # Encriptar contraseña
-        hashed_password = bcrypt.hash(password)
+            # Encriptar contraseña
+            hashed_password = get_password_hash(usuario.password)
 
-        # Insertar en la base de datos
-        conn = sqlite3.connect('mi_db.sqlite')
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)", (nombre, email, hashed_password))
-        conn.commit()
-        conn.close()
-        return {"status": "success", "message": "Usuario registrado correctamente"}
+            # Insertar en la base de datos
+            db_usuario = Usuario(nombre=usuario.nombre, email=email, password=hashed_password)
+            db.add(db_usuario)
+            db.commit()
+            db.refresh(db_usuario)
+            return {"status": "success", "message": "Usuario registrado correctamente"}
+
+        except Exception as e:
+            return {"status": "error", "detail": str(e)}

@@ -1,11 +1,11 @@
 import flet as ft
-from control.user_control import UsuarioController
+import requests
+from .components import get_header
 
 
 class RegistroView:
     def __init__(self, page: ft.Page):
         self.page = page
-        self.controller = UsuarioController()
 
     def mostrar(self):
         self.page.views.clear()
@@ -48,28 +48,7 @@ class RegistroView:
             password=True,
         )
 
-        header = ft.Container(
-            content=ft.Row(
-                controls=[
-                    ft.IconButton(icon=ft.icons.HOME, on_click=lambda _: self.page.go('/')),
-                    ft.Row(
-                        controls=[
-                            ft.ElevatedButton("Login", on_click=lambda _: self.page.go('/login')),
-                        ],
-                        alignment=ft.MainAxisAlignment.END,
-                    ),
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-            ),
-            gradient=ft.LinearGradient(
-                begin=ft.alignment.top_left,
-                end=ft.alignment.bottom_right,
-                colors=[ft.colors.GREEN, ft.colors.BLUE],
-            ),
-            padding=ft.padding.all(10),
-            margin=ft.margin.all(0),
-            expand=False,
-        )
+        header = get_header(self.page)
 
         container = ft.Container(
             ft.Column([
@@ -111,7 +90,7 @@ class RegistroView:
                 ft.Container(
                     ft.Row([
                         ft.Text("¿Ya tienes una cuenta?"),
-                        ft.TextButton("Iniciar sesión", on_click=lambda _: self.page.go('/login'))
+                        ft.TextButton("Iniciar sesión", on_click=lambda _: self.page.go('/login/'))
                     ],
                         alignment=ft.MainAxisAlignment.CENTER
                     ),
@@ -135,7 +114,7 @@ class RegistroView:
         )
 
         self.page.views.append(ft.View(
-            "/registro",
+            "/registro/",
             controls=[
                 ft.Column(
                     [
@@ -169,14 +148,38 @@ class RegistroView:
             self.page.update()
             return
 
-        result = self.controller.registrar_usuario(nombre, email, password)
+        # Hacer una solicitud POST a la API para registrar el usuario
+        try:
+            response = requests.post(
+                "http://127.0.0.1:8001/usuarios/",
+                json={
+                    "nombre": nombre,
+                    "email": email,
+                    "password": password,
+                    "confirm_password": confirm_password
+                }
+            )
+            response.raise_for_status()
 
-        if result["status"] == "error":
-            if "ErrorEmail" in result["message"]:
-                self.email_input.bgcolor = ft.colors.BLACK
-            if "ErrorPWD" in result["message"]:
-                self.password_input.bgcolor = ft.colors.BLACK
-                self.confirm_password_input.bgcolor = ft.colors.BLACK
-            self.page.update()
-        else:
-            self.page.go("/login")
+            # Verificar si la respuesta es JSON
+            if response.headers.get("content-type") == "application/json":
+                result = response.json()
+            else:
+                result = {}
+
+            if response.status_code == 200:
+                self.page.go("/login/")
+            else:
+                if "detail" in result:
+                    if "Invalid email" in result["detail"]:
+                        self.email_input.bgcolor = ft.colors.RED
+                    if "Password too short" in result["detail"]:
+                        self.password_input.bgcolor = ft.colors.RED
+                        self.confirm_password_input.bgcolor = ft.colors.RED
+                    if "Passwords do not match" in result["detail"]:
+                        self.password_input.value = ""
+                        self.confirm_password_input.value = ""
+                self.page.update()
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred: {e}")
+            # Manejar errores adicionales según sea necesario

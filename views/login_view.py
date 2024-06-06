@@ -1,4 +1,7 @@
 import flet as ft
+import requests
+from models.session import Session
+from .components import get_header
 
 
 class LoginView:
@@ -11,28 +14,26 @@ class LoginView:
     def mostrar(self):
         self.page.views.clear()
 
-        header = ft.Container(
-            content=ft.Row(
-                controls=[
-                    ft.IconButton(icon=ft.icons.HOME, on_click=self.go_home),
-                    ft.Row(
-                        controls=[
-                            ft.ElevatedButton("Registro", on_click=lambda _: self.page.go('/registro')),
-                        ],
-                        alignment=ft.MainAxisAlignment.END,
-                    ),
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-            ),
-            gradient=ft.LinearGradient(
-                begin=ft.alignment.top_left,
-                end=ft.alignment.bottom_right,
-                colors=[ft.colors.GREEN, ft.colors.BLUE],
-            ),
-            padding=ft.padding.all(10),
-            margin=ft.margin.all(0),
-            expand=False,
+        self.username_or_email_input = ft.TextField(
+            width=280,
+            height=40,
+            hint_text="Correo electrónico o Nombre de usuario",
+            border="underline",
+            color="black",
+            prefix_icon=ft.icons.PERSON,
         )
+
+        self.password_input = ft.TextField(
+            width=280,
+            height=40,
+            hint_text="Contraseña",
+            border="underline",
+            color="black",
+            prefix_icon=ft.icons.LOCK,
+            password=True,
+        )
+
+        header = get_header(self.page)
 
         container = ft.Container(
             ft.Column([
@@ -47,26 +48,11 @@ class LoginView:
                     padding=ft.padding.only(20, 20)
                 ),
                 ft.Container(
-                    ft.TextField(
-                        width=280,
-                        height=40,
-                        hint_text="Correo electrónico",
-                        border="underline",
-                        color="black",
-                        prefix_icon=ft.icons.EMAIL
-                    ),
+                    self.username_or_email_input,
                     padding=ft.padding.only(20, 20)
                 ),
                 ft.Container(
-                    ft.TextField(
-                        width=280,
-                        height=40,
-                        hint_text="Contraseña",
-                        border="underline",
-                        color="black",
-                        prefix_icon=ft.icons.LOCK,
-                        password=True
-                    ),
+                    self.password_input,
                     padding=ft.padding.only(20, 20)
                 ),
                 ft.Container(
@@ -80,7 +66,8 @@ class LoginView:
                     ft.ElevatedButton(
                         text="INICIAR",
                         width=280,
-                        bgcolor="black"
+                        bgcolor="black",
+                        on_click=self.iniciar_sesion
                     ),
                     padding=ft.padding.only(20, 20)
                 ),
@@ -137,7 +124,7 @@ class LoginView:
         )
 
         self.page.views.append(ft.View(
-            "/login",
+            "/login/",
             controls=[
                 ft.Column(
                     [
@@ -159,6 +146,35 @@ class LoginView:
         ))
 
         self.page.update()
+
+    def iniciar_sesion(self, e):
+        username_or_email = self.username_or_email_input.value
+        password = self.password_input.value
+
+        try:
+            response = requests.post(
+                "http://127.0.0.1:8001/login/",
+                data={
+                    "username": username_or_email,
+                    "password": password
+                }
+            )
+            response.raise_for_status()
+
+            result = response.json()
+            if response.status_code == 200:
+                print("Login successful:", result)
+                token = result["access_token"]
+                # Establecer el estado de la sesión
+                Session.login(username_or_email)
+                self.go_home(self)
+            else:
+                if "detail" in result:
+                    print("Login failed:", result["detail"])
+                    # Actualiza la interfaz de usuario para mostrar el error
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred: {e}")
+            # Manejar errores adicionales según sea necesario
 
     def go_home(self, e):
         self.page.go('/')
