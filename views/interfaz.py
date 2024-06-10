@@ -2,7 +2,9 @@ import flet as ft
 from views.home_view import HomeView
 from views.login_view import LoginView
 from views.registro_view import RegistroView
+from views.usuario_view import UserView
 from views.recargar_view import RecargarView  # Importar la vista de recarga
+
 
 class Interfaz:
     def __init__(self, page: ft.Page):
@@ -10,6 +12,7 @@ class Interfaz:
         self.home_view = HomeView(page)
         self.login_view = LoginView(page)
         self.registro_view = RegistroView(page)
+        self.usuario_view = UserView(page)
         self.recargar_view = None  # Vista de recarga se crea dinámicamente
 
     def iniciar(self) -> None:
@@ -23,6 +26,8 @@ class Interfaz:
             self.login_view.mostrar()
         elif self.page.route == "/registro/":
             self.registro_view.mostrar()
+        elif self.page.route == "/user/":
+            self.usuario_view.mostrar()
         elif self.page.route.startswith("/recargar"):
             target = self.page.route.split("?target=")[-1]
             self.recargar_view = RecargarView(self.page, target)

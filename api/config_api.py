@@ -80,7 +80,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 def create_usuario_carta(relacion: UsuarioCartaCreate, db: Session = Depends(get_db)):
     db_relacion = UsuarioCarta(
         usuario_id=relacion.usuario_id,
-        carta_id=relacion.carta_id,
+        cardnumber=relacion.cardnumber,  # Usar cardnumber en lugar de carta_id
         cantidad=relacion.cantidad
     )
     db.add(db_relacion)

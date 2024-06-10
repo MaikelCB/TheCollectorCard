@@ -20,7 +20,7 @@ class UsuarioCarta(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     usuario_id = Column(Integer, ForeignKey("usuarios.id"))
-    carta_id = Column(Integer)
+    cardnumber = Column(String)  # Usar cardnumber en lugar de carta_id
     cantidad = Column(Integer, default=0)
 
     owner = relationship("Usuario", back_populates="cartas")

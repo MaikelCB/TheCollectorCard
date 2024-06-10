@@ -1,5 +1,7 @@
 import flet as ft
 import requests
+from jose import jwt
+
 from models.session import Session
 from .components import get_header
 
@@ -165,16 +167,18 @@ class LoginView:
             if response.status_code == 200:
                 print("Login successful:", result)
                 token = result["access_token"]
+                # Decodificar el token para obtener el user_id y user_name
+                payload = jwt.decode(token, "hola1234", algorithms=["HS256"])
+                user_name = payload.get("sub")
                 # Establecer el estado de la sesión
-                Session.login(username_or_email)
+                Session.login(payload.get("id"), user_name)
                 self.go_home(self)
             else:
                 if "detail" in result:
                     print("Login failed:", result["detail"])
-                    # Actualiza la interfaz de usuario para mostrar el error
+
         except requests.exceptions.RequestException as e:
             print(f"An error occurred: {e}")
-            # Manejar errores adicionales según sea necesario
 
     def go_home(self, e):
         self.page.go('/')

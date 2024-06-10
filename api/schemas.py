@@ -16,7 +16,7 @@ class UsuarioResponse(BaseModel):
 
 class UsuarioCartaCreate(BaseModel):
     usuario_id: int
-    carta_id: int
+    cardnumber: str  # Usar cardnumber en lugar de carta_id
     cantidad: int
 
 class LoginRequest(BaseModel):

@@ -2,7 +2,6 @@ import flet as ft
 import requests
 from .components import get_header
 
-
 class RegistroView:
     def __init__(self, page: ft.Page):
         self.page = page
@@ -182,4 +181,3 @@ class RegistroView:
                 self.page.update()
         except requests.exceptions.RequestException as e:
             print(f"An error occurred: {e}")
-            # Manejar errores adicionales según sea necesario

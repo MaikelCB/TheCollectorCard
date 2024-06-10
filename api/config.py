@@ -18,4 +18,4 @@ def get_db():
 # Configuraciones JWT
 SECRET_KEY = os.getenv("SECRET_KEY", "hola1234")  # Asegúrate de usar una clave secreta segura en producción
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30  # Expiración del token en minutos
+ACCESS_TOKEN_EXPIRE_MINUTES = 15  # Expiración del token en minutos

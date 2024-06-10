@@ -1,9 +1,10 @@
 import flet as ft
 from control.digicard_control import DigiCardController
 from .components import get_header, mostrar_detalle_carta
+from models.session import Session
 
 
-class HomeView:
+class UserView:
     def __init__(self, page: ft.Page):
         self.page = page
         self.digicard_controller = DigiCardController()
@@ -62,7 +63,7 @@ class HomeView:
 
         # Añadir el contenedor a la vista
         self.page.views.append(ft.View(
-            "/",
+            "/user/",
             controls=[container],
             padding=ft.padding.all(0),
             vertical_alignment=ft.MainAxisAlignment.START,
@@ -107,20 +108,66 @@ class HomeView:
 
         for carta in cards_to_show:
             image_proxy_url = f"{self.digicard_controller.proxy_url}{carta.image_url}"
-            card_row.controls.append(
-                ft.Container(
-                    ft.Image(src=image_proxy_url, width=250, height=250),
-                    border_radius=ft.border_radius.all(5),
-                    padding=ft.padding.all(5),
-                    on_click=lambda e, c=carta: self.mostrar_detalle_carta(c)
-                )
-            )
+            cantidad = self.digicard_controller.obtener_cantidad_carta(Session.user_id, carta.cardnumber)
+            card_row.controls.append(self.crear_carta(carta, image_proxy_url, cantidad))
 
         self.mostrar_filtro()
         self.card_row_container.content = card_row
         self.card_row_container.visible = True
         self.page.update()
         self.mostrar_paginacion()
+
+    def crear_carta(self, carta, image_proxy_url, cantidad_inicial):
+        cantidad = ft.Text(str(cantidad_inicial), size=20, color="white")
+
+        def incrementar(e):
+            nueva_cantidad = int(cantidad.value) + 1
+            cantidad.value = str(nueva_cantidad)
+            self.digicard_controller.actualizar_cantidad_carta(Session.user_id, carta.cardnumber, nueva_cantidad)
+            self.page.update()
+
+        def decrementar(e):
+            nueva_cantidad = int(cantidad.value) - 1
+            if nueva_cantidad >= 0:
+                cantidad.value = str(nueva_cantidad)
+                self.digicard_controller.actualizar_cantidad_carta(Session.user_id, carta.cardnumber, nueva_cantidad)
+                self.page.update()
+
+        return ft.Container(
+            content=ft.Column(
+                [
+                    ft.Container(
+                        content=ft.Image(
+                            src=image_proxy_url,
+                            width=250,
+                            height=310,
+                            fit=ft.ImageFit.COVER,
+                            border_radius=ft.border_radius.all(0)
+                        ),
+                        on_click=lambda e, c=carta: self.mostrar_detalle_carta(c),
+                    ),
+                    ft.Container(
+                        content=ft.Row(
+                            [
+                                ft.IconButton(icon=ft.icons.REMOVE, on_click=decrementar),
+                                cantidad,
+                                ft.IconButton(icon=ft.icons.ADD, on_click=incrementar),
+                            ],
+                            alignment=ft.MainAxisAlignment.SPACE_AROUND,
+                        ),
+                        bgcolor=ft.colors.BLUE,
+                        padding=ft.padding.all(0),
+                        border_radius=ft.border_radius.all(0),
+                    )
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                spacing=0,
+            ),
+            border_radius=ft.border_radius.all(10),
+            padding=ft.padding.all(0),
+            width=250,
+            height=350,
+        )
 
     def mostrar_filtro(self):
         filtrado_row = ft.Row(
@@ -181,7 +228,7 @@ class HomeView:
         if self.details_panel:
             self.page.overlay.remove(self.details_panel)
 
-        # Llamar a la función para mostrar el detalle de la carta
+        # Construir la URL de la imagen proxy
         self.details_panel = mostrar_detalle_carta(self.page, carta, self.cerrar_panel_detalles)
 
     def cerrar_panel_detalles(self, e):
