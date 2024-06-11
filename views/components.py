@@ -57,6 +57,7 @@ def get_header(page: ft.Page):
 def crear_texto(contenido, size=16, weight=None):
     return ft.Text(contenido, size=size, weight=weight, color=ft.colors.BLACK)
 
+
 def mostrar_detalle_carta(page, carta, cerrar_panel_detalles):
     # Construir la URL de la imagen proxy
     image_proxy_url = f"{digicard_controller.proxy_url}{carta.image_url}"

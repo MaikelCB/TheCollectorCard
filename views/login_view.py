@@ -167,11 +167,17 @@ class LoginView:
             if response.status_code == 200:
                 print("Login successful:", result)
                 token = result["access_token"]
-                # Decodificar el token para obtener el user_id y user_name
-                payload = jwt.decode(token, "hola1234", algorithms=["HS256"])
-                user_name = payload.get("sub")
+
+                # Obtener el ID de usuario y nombre de usuario
+                user_response = requests.get(
+                    "http://127.0.0.1:8001/me/",
+                    headers={"Authorization": f"Bearer {token}"}
+                )
+                user_response.raise_for_status()
+                user_info = user_response.json()
+
                 # Establecer el estado de la sesión
-                Session.login(payload.get("id"), user_name)
+                Session.login(user_info["id"], user_info["nombre"])
                 self.go_home(self)
             else:
                 if "detail" in result:

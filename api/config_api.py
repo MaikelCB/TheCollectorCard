@@ -3,7 +3,8 @@ from datetime import timedelta
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from passlib.hash import bcrypt  # Asegúrate de importar bcrypt aquí
+from passlib.hash import bcrypt
+from typing import List  # Import List from typing
 from .config import get_db, engine, ACCESS_TOKEN_EXPIRE_MINUTES
 from .models import Base, Usuario, UsuarioCarta
 from .schemas import UsuarioCreate, UsuarioResponse, UsuarioCartaCreate, Token
@@ -21,7 +22,7 @@ controller = UsuarioController()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     payload = decode_access_token(token)
     if payload is None:
         raise HTTPException(
@@ -36,7 +37,19 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
             detail="Invalid authentication credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    return username
+    user = db.query(Usuario).filter(Usuario.email == username).first()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return user
+
+
+@app.get("/me/", response_model=UsuarioResponse)
+def read_users_me(current_user: Usuario = Depends(get_current_user)):
+    return current_user
 
 
 @app.post("/usuarios/", response_model=UsuarioResponse)
@@ -76,14 +89,36 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@app.post("/usuario_cartas/")
-def create_usuario_carta(relacion: UsuarioCartaCreate, db: Session = Depends(get_db)):
-    db_relacion = UsuarioCarta(
-        usuario_id=relacion.usuario_id,
-        cardnumber=relacion.cardnumber,  # Usar cardnumber en lugar de carta_id
-        cantidad=relacion.cantidad
-    )
-    db.add(db_relacion)
-    db.commit()
-    db.refresh(db_relacion)
+@app.post("/usuario_cartas/", status_code=201)
+def create_or_update_usuario_carta(relacion: UsuarioCartaCreate, db: Session = Depends(get_db)):
+    db_relacion = db.query(UsuarioCarta).filter(
+        UsuarioCarta.usuario_id == relacion.usuario_id,
+        UsuarioCarta.cardnumber == relacion.cardnumber
+    ).first()
+
+    if db_relacion:
+        if relacion.cantidad > 0:
+            db_relacion.cantidad = relacion.cantidad
+            db.commit()
+            db.refresh(db_relacion)
+        else:
+            db.delete(db_relacion)
+            db.commit()
+    else:
+        if relacion.cantidad > 0:
+            db_relacion = UsuarioCarta(
+                usuario_id=relacion.usuario_id,
+                cardnumber=relacion.cardnumber,
+                cantidad=relacion.cantidad
+            )
+            db.add(db_relacion)
+            db.commit()
+            db.refresh(db_relacion)
+
     return db_relacion
+
+
+@app.get("/usuario_cartas/{usuario_id}", response_model=List[UsuarioCartaCreate])
+def obtener_usuario_cartas(usuario_id: int, db: Session = Depends(get_db)):
+    usuario_cartas = db.query(UsuarioCarta).filter(UsuarioCarta.usuario_id == usuario_id).all()
+    return usuario_cartas

@@ -4,23 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88dff0ea-d08f-4d9f-9b90-384f7d37224d" name="Changes" comment="Registro-login-bbdd-componentes-seguridad. 06-06">
-      <change afterPath="$PROJECT_DIR$/models/usuario_cartas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/usuario_view.py" afterDir="false" />
+    <list default="true" id="88dff0ea-d08f-4d9f-9b90-384f7d37224d" name="Changes" comment="View de usuario y optimización de codigo y vistas. 10-06">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/config_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/config_api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/control/digicard_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control/digicard_control.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/digicoleccion.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/control/user_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control/user_control.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/components.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/components.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/home_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/home_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/interfaz.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/interfaz.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/login_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/login_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/registro_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/registro_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/usuario_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/usuario_view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +122,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717705814540</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="View de usuario y optimización de codigo y vistas. 10-06">
+      <option name="closed" value="true" />
+      <created>1718059124919</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1718059124919</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -137,6 +138,7 @@
     <MESSAGE value="Re version de vistas. 0506" />
     <MESSAGE value="Intento signIN. 0606" />
     <MESSAGE value="Registro-login-bbdd-componentes-seguridad. 06-06" />
-    <option name="LAST_COMMIT_MESSAGE" value="Registro-login-bbdd-componentes-seguridad. 06-06" />
+    <MESSAGE value="View de usuario y optimización de codigo y vistas. 10-06" />
+    <option name="LAST_COMMIT_MESSAGE" value="View de usuario y optimización de codigo y vistas. 10-06" />
   </component>
 </project>

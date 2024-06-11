@@ -14,9 +14,13 @@ class UserView:
         self.cards_per_page = 54
         self.total_pages = 1
         self.all_cards = []
+        self.all_cards_dict = {}  # Diccionario para almacenar todas las cartas
+        self.user_cards = {}  # Diccionario para almacenar las cartas del usuario
+        self.filtered_cards = []  # Lista para almacenar las cartas filtradas
         self.filtrado_container = ft.Container()  # Contenedor para filtrado
         self.pagination_container = ft.Container()  # Contenedor para paginación
         self.digimon_visible = False
+        self.filtro_activo = False
 
     def mostrar(self):
         self.page.views.clear()
@@ -90,6 +94,8 @@ class UserView:
             self.current_page = 1
             self.all_cards = self.digicard_controller.obtener_digicartas()
             self.all_cards.sort(key=lambda x: x.cardnumber)
+            self.all_cards_dict = {carta.cardnumber: carta for carta in self.all_cards}
+            self.user_cards = self.digicard_controller.obtener_cartas_usuario(Session.user_id)
             self.total_pages = (len(self.all_cards) + self.cards_per_page - 1) // self.cards_per_page
             self.mostrar_pagina(self.current_page)
             self.digimon_visible = True
@@ -102,13 +108,13 @@ class UserView:
     def mostrar_pagina(self, pagina):
         start_index = (pagina - 1) * self.cards_per_page
         end_index = start_index + self.cards_per_page
-        cards_to_show = self.all_cards[start_index:end_index]
+        cards_to_show = self.filtered_cards[start_index:end_index] if self.filtered_cards else self.all_cards[start_index:end_index]
 
         card_row = ft.Row(wrap=True, scroll=ft.ScrollMode.ALWAYS, expand=True)
 
         for carta in cards_to_show:
             image_proxy_url = f"{self.digicard_controller.proxy_url}{carta.image_url}"
-            cantidad = self.digicard_controller.obtener_cantidad_carta(Session.user_id, carta.cardnumber)
+            cantidad = self.user_cards.get(carta.cardnumber, 0)
             card_row.controls.append(self.crear_carta(carta, image_proxy_url, cantidad))
 
         self.mostrar_filtro()
@@ -124,6 +130,7 @@ class UserView:
             nueva_cantidad = int(cantidad.value) + 1
             cantidad.value = str(nueva_cantidad)
             self.digicard_controller.actualizar_cantidad_carta(Session.user_id, carta.cardnumber, nueva_cantidad)
+            self.user_cards[carta.cardnumber] = nueva_cantidad
             self.page.update()
 
         def decrementar(e):
@@ -131,6 +138,7 @@ class UserView:
             if nueva_cantidad >= 0:
                 cantidad.value = str(nueva_cantidad)
                 self.digicard_controller.actualizar_cantidad_carta(Session.user_id, carta.cardnumber, nueva_cantidad)
+                self.user_cards[carta.cardnumber] = nueva_cantidad
                 self.page.update()
 
         return ft.Container(
@@ -170,10 +178,24 @@ class UserView:
         )
 
     def mostrar_filtro(self):
+        filtro_popup = ft.PopupMenuButton(
+            items=[
+                ft.PopupMenuItem(
+                    text="Mostrar cartas con cantidad > 0",
+                    on_click=lambda _: self.filtrar_cartas_con_cantidad()
+                ),
+            ]
+        )
+        limpiar_filtro_button = ft.IconButton(
+            icon=ft.icons.CLEAR,
+            on_click=lambda _: self.limpiar_filtro(),
+            visible=self.filtro_activo
+        )
         filtrado_row = ft.Row(
             controls=[
                 ft.Text("Filtro"),
-                ft.IconButton(icon=ft.icons.FILTER_LIST)
+                filtro_popup,
+                limpiar_filtro_button
             ],
             alignment=ft.MainAxisAlignment.END,
         )
@@ -181,7 +203,22 @@ class UserView:
         self.filtrado_container.visible = True
         self.page.update()
 
+    def filtrar_cartas_con_cantidad(self):
+        self.filtered_cards = [carta for carta in self.all_cards if self.user_cards.get(carta.cardnumber, 0) > 0]
+        self.filtro_activo = True
+        self.total_pages = (len(self.filtered_cards) + self.cards_per_page - 1) // self.cards_per_page
+        self.mostrar_pagina(self.current_page)
+
+    def limpiar_filtro(self):
+        self.filtered_cards = []
+        self.filtro_activo = False
+        self.total_pages = (len(self.all_cards) + self.cards_per_page - 1) // self.cards_per_page
+        self.mostrar_pagina(self.current_page)
+
     def mostrar_paginacion(self):
+        total_cartas = len(self.filtered_cards) if self.filtered_cards else len(self.all_cards)
+        self.total_pages = (total_cartas + self.cards_per_page - 1) // self.cards_per_page
+
         if self.total_pages <= 1:
             self.pagination_container.visible = False
             self.page.update()

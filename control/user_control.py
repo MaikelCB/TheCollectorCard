@@ -6,6 +6,7 @@ from api.bcrypt_wrapper import verify_password, get_password_hash
 
 
 class UsuarioController:
+
     def registrar_usuario(self, db: Session, usuario: UsuarioCreate):
         try:
             # Validar email
