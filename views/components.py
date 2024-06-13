@@ -51,6 +51,7 @@ def get_header(page: ft.Page):
         padding=ft.padding.all(10),
         margin=ft.margin.all(0),
         expand=False,
+        alignment=ft.alignment.top_center,
     )
 
 
@@ -60,12 +61,12 @@ def crear_texto(contenido, size=16, weight=None):
 
 def mostrar_detalle_carta(page, carta, cerrar_panel_detalles):
     # Construir la URL de la imagen proxy
-    image_proxy_url = f"{digicard_controller.proxy_url}{carta.image_url}"
+    image_proxy_url = carta.image_url
 
     # Crear la lista de controles con todos los detalles de la carta
     detalles_carta = [
         crear_texto(f"Name: {carta.name}", size=22, weight="bold"),
-        crear_texto(f"Card Number: {carta.cardnumber}", size=20, weight="bold"),
+        crear_texto(f"Card Number: {carta.id}", size=20, weight="bold"),
         crear_texto(f"Type: {carta.type}"),
         crear_texto(f"Color: {carta.color}"),
         crear_texto(f"Stage: {carta.stage}"),
@@ -74,15 +75,12 @@ def mostrar_detalle_carta(page, carta, cerrar_panel_detalles):
         crear_texto(f"Level: {carta.level}"),
         crear_texto(f"Play Cost: {carta.play_cost}"),
         crear_texto(f"Evolution Cost: {carta.evolution_cost}"),
-        crear_texto(f"Rarity: {carta.cardrarity}"),
+        crear_texto(f"Rarity: {carta.rarity}"),
         crear_texto(f"Artist: {carta.artist}"),
         crear_texto(f"DP: {carta.dp}"),
-        crear_texto(f"Set Name: {carta.set_name}")
+        crear_texto(f"Main Effect: {carta.main_effect}"),
+        crear_texto(f"Source Effect: {carta.source_effect}")
     ]
-
-    # Crear los textos de Main Effect y Source Effect
-    main_effect_text = crear_texto(f"Main Effect: {carta.maineffect}")
-    source_effect_text = crear_texto(f"Source Effect: {carta.soureeffect}")
 
     # Crear el contenedor de detalles de la carta
     details_panel = ft.Container(
@@ -99,14 +97,6 @@ def mostrar_detalle_carta(page, carta, cerrar_panel_detalles):
                         )
                     ],
                     alignment=ft.MainAxisAlignment.START,
-                ),
-                ft.Container(
-                    content=main_effect_text,
-                    padding=ft.padding.only(33)  # Añadir margen horizontal
-                ),
-                ft.Container(
-                    content=source_effect_text,
-                    padding=ft.padding.only(33)  # Añadir margen horizontal
                 )
             ],
             alignment=ft.MainAxisAlignment.START,

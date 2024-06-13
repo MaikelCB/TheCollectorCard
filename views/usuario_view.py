@@ -24,7 +24,9 @@ class UserView:
 
     def mostrar(self):
         self.page.views.clear()
-
+        self.filtrado_container.visible = False
+        self.card_row_container.visible = False
+        self.pagination_container.visible = False
         # Crear el encabezado (header)
         header = get_header(self.page)
 
@@ -93,8 +95,8 @@ class UserView:
         else:
             self.current_page = 1
             self.all_cards = self.digicard_controller.obtener_digicartas()
-            self.all_cards.sort(key=lambda x: x.cardnumber)
-            self.all_cards_dict = {carta.cardnumber: carta for carta in self.all_cards}
+            self.all_cards.sort(key=lambda x: x.id)
+            self.all_cards_dict = {carta.id: carta for carta in self.all_cards}
             self.user_cards = self.digicard_controller.obtener_cartas_usuario(Session.user_id)
             self.total_pages = (len(self.all_cards) + self.cards_per_page - 1) // self.cards_per_page
             self.mostrar_pagina(self.current_page)
@@ -114,7 +116,7 @@ class UserView:
 
         for carta in cards_to_show:
             image_proxy_url = f"{self.digicard_controller.proxy_url}{carta.image_url}"
-            cantidad = self.user_cards.get(carta.cardnumber, 0)
+            cantidad = self.user_cards.get(carta.id, 0)
             card_row.controls.append(self.crear_carta(carta, image_proxy_url, cantidad))
 
         self.mostrar_filtro()
@@ -129,16 +131,16 @@ class UserView:
         def incrementar(e):
             nueva_cantidad = int(cantidad.value) + 1
             cantidad.value = str(nueva_cantidad)
-            self.digicard_controller.actualizar_cantidad_carta(Session.user_id, carta.cardnumber, nueva_cantidad)
-            self.user_cards[carta.cardnumber] = nueva_cantidad
+            self.digicard_controller.actualizar_cantidad_carta(Session.user_id, carta.id, nueva_cantidad)
+            self.user_cards[carta.id] = nueva_cantidad
             self.page.update()
 
         def decrementar(e):
             nueva_cantidad = int(cantidad.value) - 1
             if nueva_cantidad >= 0:
                 cantidad.value = str(nueva_cantidad)
-                self.digicard_controller.actualizar_cantidad_carta(Session.user_id, carta.cardnumber, nueva_cantidad)
-                self.user_cards[carta.cardnumber] = nueva_cantidad
+                self.digicard_controller.actualizar_cantidad_carta(Session.user_id, carta.id, nueva_cantidad)
+                self.user_cards[carta.id] = nueva_cantidad
                 self.page.update()
 
         return ft.Container(
@@ -181,7 +183,7 @@ class UserView:
         filtro_popup = ft.PopupMenuButton(
             items=[
                 ft.PopupMenuItem(
-                    text="Mostrar cartas con cantidad > 0",
+                    text="En Propiedad",
                     on_click=lambda _: self.filtrar_cartas_con_cantidad()
                 ),
             ]
@@ -204,7 +206,7 @@ class UserView:
         self.page.update()
 
     def filtrar_cartas_con_cantidad(self):
-        self.filtered_cards = [carta for carta in self.all_cards if self.user_cards.get(carta.cardnumber, 0) > 0]
+        self.filtered_cards = [carta for carta in self.all_cards if self.user_cards.get(carta.id, 0) > 0]
         self.filtro_activo = True
         self.total_pages = (len(self.filtered_cards) + self.cards_per_page - 1) // self.cards_per_page
         self.mostrar_pagina(self.current_page)

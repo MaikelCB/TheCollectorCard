@@ -1,4 +1,5 @@
 import flet as ft
+
 from views.home_view import HomeView
 from views.login_view import LoginView
 from views.registro_view import RegistroView

@@ -19,7 +19,7 @@ class LoginView:
         self.username_or_email_input = ft.TextField(
             width=280,
             height=40,
-            hint_text="Correo electrónico o Nombre de usuario",
+            hint_text="Correo electrónico o Usuario",
             border="underline",
             color="black",
             prefix_icon=ft.icons.PERSON,
@@ -102,7 +102,7 @@ class LoginView:
                 ft.Container(
                     ft.Row([
                         ft.Text("¿No tienes una cuenta?"),
-                        ft.TextButton("Crear cuenta", on_click=lambda _: self.page.go('/registro'))
+                        ft.TextButton("Crear cuenta", on_click=lambda _: self.page.go('/registro/'))
                     ],
                         alignment=ft.MainAxisAlignment.CENTER
                     ),
@@ -178,7 +178,7 @@ class LoginView:
 
                 # Establecer el estado de la sesión
                 Session.login(user_info["id"], user_info["nombre"])
-                self.go_home(self)
+                self.page.go('/user/')
             else:
                 if "detail" in result:
                     print("Login failed:", result["detail"])
