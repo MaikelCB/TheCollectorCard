@@ -7,8 +7,9 @@ from passlib.hash import bcrypt
 from typing import List  # Import List from typing
 from .config import get_db, engine, ACCESS_TOKEN_EXPIRE_MINUTES
 from .models import Base, Usuario, UsuarioCarta
-from .schemas import UsuarioCreate, UsuarioResponse, UsuarioCartaCreate, Token
+from .schemas import UsuarioCreate, UsuarioResponse, UsuarioCartaCreate, Token, DigiCartaResponse
 from control.user_control import UsuarioController
+from control.digicard_control import DigiCardController
 from .auth import create_access_token, verify_password, decode_access_token
 
 logging.basicConfig(level=logging.INFO)
@@ -18,6 +19,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 controller = UsuarioController()
+digicard_controller = DigiCardController()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -122,3 +124,8 @@ def create_or_update_usuario_carta(relacion: UsuarioCartaCreate, db: Session = D
 def obtener_usuario_cartas(usuario_id: int, db: Session = Depends(get_db)):
     usuario_cartas = db.query(UsuarioCarta).filter(UsuarioCarta.usuario_id == usuario_id).all()
     return usuario_cartas
+
+
+@app.get("/digicartas/", response_model=List[DigiCartaResponse])
+def obtener_digicartas(db: Session = Depends(get_db)):
+    return digicard_controller.obtener_digicartas(db)

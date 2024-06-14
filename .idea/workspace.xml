@@ -4,17 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88dff0ea-d08f-4d9f-9b90-384f7d37224d" name="Changes" comment="Pre-presentacion. Funcionalidades ampliadas y control de coleccion. 11-06">
-      <change afterPath="$PROJECT_DIR$/assets/digimonbanner.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/fondo.jpg" afterDir="false" />
+    <list default="true" id="88dff0ea-d08f-4d9f-9b90-384f7d37224d" name="Changes" comment="Reparación API y diseño. 13-06">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/config_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/control/digicard_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control/digicard_control.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/a.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/icono.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/digicard.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/digicard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/components.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/components.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/home_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/home_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/interfaz.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/interfaz.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/login_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/login_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/registro_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/registro_view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/usuario_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/usuario_view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,6 +58,7 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Python.a.executor": "Run",
+    "Python.components.executor": "Run",
     "Python.main.executor": "Run",
     "Python.proxy.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -144,7 +144,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718130252321</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Reparación API y diseño. 13-06">
+      <option name="closed" value="true" />
+      <created>1718318385032</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1718318385032</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -155,6 +163,7 @@
     <MESSAGE value="Registro-login-bbdd-componentes-seguridad. 06-06" />
     <MESSAGE value="View de usuario y optimización de codigo y vistas. 10-06" />
     <MESSAGE value="Pre-presentacion. Funcionalidades ampliadas y control de coleccion. 11-06" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pre-presentacion. Funcionalidades ampliadas y control de coleccion. 11-06" />
+    <MESSAGE value="Reparación API y diseño. 13-06" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reparación API y diseño. 13-06" />
   </component>
 </project>

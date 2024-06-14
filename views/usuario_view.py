@@ -1,6 +1,6 @@
 import flet as ft
 from control.digicard_control import DigiCardController
-from .components import get_header, mostrar_detalle_carta
+from .components import get_header, mostrar_detalle_carta, get_footer
 from models.session import Session
 
 
@@ -27,8 +27,10 @@ class UserView:
         self.filtrado_container.visible = False
         self.card_row_container.visible = False
         self.pagination_container.visible = False
-        # Crear el encabezado (header)
+
         header = get_header(self.page)
+        footer = get_footer(self.page)
+
 
         # Crear botones de categorías
         category_buttons = ft.Row(
@@ -56,7 +58,8 @@ class UserView:
                     category_buttons,
                     self.filtrado_container,
                     self.card_row_container,
-                    self.pagination_container
+                    self.pagination_container,
+                    footer
                 ],
                 alignment=ft.MainAxisAlignment.START,
                 expand=True

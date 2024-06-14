@@ -1,6 +1,6 @@
 import flet as ft
 import requests
-from .components import get_header
+from .components import get_header, get_footer
 
 class RegistroView:
     def __init__(self, page: ft.Page):
@@ -48,6 +48,8 @@ class RegistroView:
         )
 
         header = get_header(self.page)
+        footer = get_footer(self.page)
+
 
         container = ft.Container(
             ft.Column([
@@ -124,7 +126,9 @@ class RegistroView:
                             expand=True,
                             margin=ft.margin.symmetric(vertical=20)
                         ),
+                        footer
                     ],
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                     expand=True,
                 )
             ],

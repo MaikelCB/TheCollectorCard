@@ -1,6 +1,6 @@
 import flet as ft
 from control.digicard_control import DigiCardController
-from .components import get_header, mostrar_detalle_carta
+from .components import get_header, get_footer, mostrar_detalle_carta
 
 
 class HomeView:
@@ -23,10 +23,10 @@ class HomeView:
         self.filtrado_container.visible = False
         self.card_row_container.visible = False
         self.pagination_container.visible = False
-        # Crear el encabezado (header)
-        header = get_header(self.page)
 
-        # Crear botones de categorías
+        header = get_header(self.page)
+        footer = get_footer(self.page)
+
         category_containers1 = [
             ft.Container(
                 ft.Image(
@@ -120,9 +120,10 @@ class HomeView:
                     self.category_container,
                     self.filtrado_container,
                     self.card_row_container,
-                    self.pagination_container
+                    self.pagination_container,
+                    footer
                 ],
-                alignment=ft.MainAxisAlignment.START,
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 expand=True,
                 scroll=ft.ScrollMode.ALWAYS
 

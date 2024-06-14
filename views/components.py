@@ -104,7 +104,7 @@ def mostrar_detalle_carta(page, carta, cerrar_panel_detalles):
         ),
         alignment=ft.alignment.center,
         padding=ft.padding.all(10),
-        bgcolor=ft.colors.random_color(),
+        bgcolor=ft.colors.CYAN,
         border_radius=ft.border_radius.all(10),
         shadow=ft.BoxShadow(
             color=ft.colors.BLACK,
@@ -121,3 +121,33 @@ def mostrar_detalle_carta(page, carta, cerrar_panel_detalles):
     page.overlay.append(details_panel)
     page.update()
     return details_panel
+
+
+def get_footer(page: ft.Page):
+    footer_controls = [
+        ft.Text("© 2024 The Collector Card App. All rights reserved."),
+        ft.Row(
+            controls=[
+                ft.TextButton("Privacy Policy", on_click=lambda _: print("Privacy Policy clicked")),
+                ft.TextButton("Terms of Service", on_click=lambda _: print("Terms of Service clicked")),
+                ft.TextButton("Contact Us", on_click=lambda _: print("Contact Us clicked"))
+            ],
+            alignment=ft.MainAxisAlignment.END,
+        )
+    ]
+
+    return ft.Container(
+        content=ft.Row(
+            controls=footer_controls,
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+        ),
+        gradient=ft.LinearGradient(
+            begin=ft.alignment.bottom_right,
+            end=ft.alignment.top_left,
+            colors=[ft.colors.GREEN, ft.colors.BLUE],
+        ),
+        padding=ft.padding.all(10),
+        margin=ft.margin.all(0),
+        expand=False,
+        alignment=ft.alignment.bottom_center,
+    )

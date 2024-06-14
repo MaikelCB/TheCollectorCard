@@ -3,7 +3,7 @@ import requests
 from jose import jwt
 
 from models.session import Session
-from .components import get_header
+from .components import get_header, get_footer
 
 
 class LoginView:
@@ -36,6 +36,7 @@ class LoginView:
         )
 
         header = get_header(self.page)
+        footer = get_footer(self.page)
 
         container = ft.Container(
             ft.Column([
@@ -137,6 +138,7 @@ class LoginView:
                             expand=True,
                             margin=ft.margin.symmetric(vertical=20)
                         ),
+                        footer
                     ],
                     expand=True,
                 )

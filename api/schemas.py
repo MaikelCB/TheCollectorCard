@@ -35,3 +35,32 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
+
+class DigiCartaResponse(BaseModel):
+    id: str
+    name: str
+    type: str
+    level: str
+    play_cost: str
+    evolution_cost: str
+    evolution_color: str
+    evolution_level: str
+    xros_req: str
+    color: str
+    color2: str | None = None
+    digi_type: str
+    digi_type2: str | None = None
+    form: str
+    dp: str
+    attribute: str
+    rarity: str
+    stage: str
+    artist: str
+    main_effect: str
+    source_effect: str
+    alt_effect: str
+    series: str
+    image_url: str
+
+    class Config:
+        from_attributes = True
