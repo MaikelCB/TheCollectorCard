@@ -5,7 +5,18 @@ from models.session import Session
 
 
 class UserView:
+    """
+    Clase que maneja la vista de usuario utilizando el framework Flet.
+
+    """
+
     def __init__(self, page: ft.Page):
+        """
+        Inicializa una nueva instancia de la clase UserView.
+
+        Args:
+            page (ft.Page): La página principal de la aplicación.
+        """
         self.page = page
         self.digicard_controller = DigiCardController()
         self.card_row_container = ft.Container()
@@ -14,15 +25,18 @@ class UserView:
         self.cards_per_page = 54
         self.total_pages = 1
         self.all_cards = []
-        self.all_cards_dict = {}  # Diccionario para almacenar todas las cartas
-        self.user_cards = {}  # Diccionario para almacenar las cartas del usuario
-        self.filtered_cards = []  # Lista para almacenar las cartas filtradas
-        self.filtrado_container = ft.Container()  # Contenedor para filtrado
-        self.pagination_container = ft.Container()  # Contenedor para paginación
+        self.all_cards_dict = {}
+        self.user_cards = {}
+        self.filtered_cards = []
+        self.filtrado_container = ft.Container()
+        self.pagination_container = ft.Container()
         self.digimon_visible = False
         self.filtro_activo = False
 
     def mostrar(self):
+        """
+        Muestra la vista de usuario, configurando el layout y los contenedores.
+        """
         self.page.views.clear()
         self.filtrado_container.visible = False
         self.card_row_container.visible = False
@@ -31,8 +45,6 @@ class UserView:
         header = get_header(self.page)
         footer = get_footer(self.page)
 
-
-        # Crear botones de categorías
         category_buttons = ft.Row(
             controls=[
                 ft.ElevatedButton("Pokemon", on_click=self.cargar_pokemon),
@@ -42,12 +54,11 @@ class UserView:
             alignment=ft.MainAxisAlignment.CENTER,
         )
 
-        # Crear contenedor de cartas, inicialmente invisible
         self.card_row_container = ft.Container(
             margin=ft.margin.only(top=20),
             alignment=ft.alignment.center,
             expand=True,
-            visible=False  # Inicialmente invisible
+            visible=False
         )
 
         # Crear contenedor principal
@@ -59,7 +70,7 @@ class UserView:
                     self.filtrado_container,
                     self.card_row_container,
                     self.pagination_container,
-                    footer
+
                 ],
                 alignment=ft.MainAxisAlignment.START,
                 expand=True
@@ -70,7 +81,6 @@ class UserView:
             margin=ft.margin.all(0)
         )
 
-        # Añadir el contenedor a la vista
         self.page.views.append(ft.View(
             "/user/",
             controls=[container],
@@ -83,13 +93,31 @@ class UserView:
         self.page.update()
 
     def go_home(self, e):
+        """
+        Navega a la página de inicio.
+
+        Args:
+            e (Event): El evento que dispara la navegación.
+        """
         self.page.go('/')
 
     def cargar_pokemon(self, e):
+        """
+        Carga y muestra las cartas de Pokemon.
+
+        Args:
+            e (Event): El evento que dispara la carga de cartas.
+        """
         # Implementar lógica de carga de cartas de Pokemon
         pass
 
     def cargar_digimon(self, e):
+        """
+        Carga y muestra las cartas de Digimon.
+
+        Args:
+            e (Event): El evento que dispara la carga de cartas.
+        """
         if self.digimon_visible:
             self.filtrado_container.visible = False
             self.card_row_container.visible = False
@@ -107,10 +135,22 @@ class UserView:
         self.page.update()
 
     def cargar_yugioh(self, e):
+        """
+        Carga y muestra las cartas de Yugioh.
+
+        Args:
+            e (Event): El evento que dispara la carga de cartas.
+        """
         # Implementar lógica de carga de cartas de Yugioh
         pass
 
     def mostrar_pagina(self, pagina):
+        """
+        Muestra las cartas de la página especificada.
+
+        Args:
+            pagina (int): El número de la página a mostrar.
+        """
         start_index = (pagina - 1) * self.cards_per_page
         end_index = start_index + self.cards_per_page
         cards_to_show = self.filtered_cards[start_index:end_index] if self.filtered_cards else self.all_cards[start_index:end_index]
@@ -129,6 +169,17 @@ class UserView:
         self.mostrar_paginacion()
 
     def crear_carta(self, carta, image_proxy_url, cantidad_inicial):
+        """
+        Crea una carta con controles para incrementar y decrementar la cantidad.
+
+        Args:
+            carta (DigiCarta): La carta a crear.
+            image_proxy_url (str): URL de la imagen de la carta.
+            cantidad_inicial (int): Cantidad inicial de la carta.
+
+        Returns:
+            ft.Container: Contenedor de la carta.
+        """
         cantidad = ft.Text(str(cantidad_inicial), size=20, color="white")
 
         def incrementar(e):
@@ -183,6 +234,9 @@ class UserView:
         )
 
     def mostrar_filtro(self):
+        """
+        Muestra el filtro de búsqueda de cartas.
+        """
         filtro_popup = ft.PopupMenuButton(
             items=[
                 ft.PopupMenuItem(
@@ -209,18 +263,27 @@ class UserView:
         self.page.update()
 
     def filtrar_cartas_con_cantidad(self):
+        """
+        Filtra las cartas para mostrar solo aquellas en propiedad del usuario.
+        """
         self.filtered_cards = [carta for carta in self.all_cards if self.user_cards.get(carta.id, 0) > 0]
         self.filtro_activo = True
         self.total_pages = (len(self.filtered_cards) + self.cards_per_page - 1) // self.cards_per_page
         self.mostrar_pagina(self.current_page)
 
     def limpiar_filtro(self):
+        """
+        Limpia el filtro de cartas y muestra todas las cartas.
+        """
         self.filtered_cards = []
         self.filtro_activo = False
         self.total_pages = (len(self.all_cards) + self.cards_per_page - 1) // self.cards_per_page
         self.mostrar_pagina(self.current_page)
 
     def mostrar_paginacion(self):
+        """
+        Muestra la paginación para navegar entre páginas de cartas.
+        """
         total_cartas = len(self.filtered_cards) if self.filtered_cards else len(self.all_cards)
         self.total_pages = (total_cartas + self.cards_per_page - 1) // self.cards_per_page
 
@@ -262,19 +325,34 @@ class UserView:
         self.page.update()
 
     def actualizar_pagina(self, pagina):
+        """
+        Actualiza la página actual y muestra las cartas correspondientes.
+
+        Args:
+            pagina (int): El número de la página a mostrar.
+        """
         self.current_page = pagina
         self.mostrar_pagina(pagina)
 
     def mostrar_detalle_carta(self, carta):
-        # Cerrar cualquier panel de detalles abierto previamente
+        """
+        Muestra el panel de detalles de una carta específica.
+
+        Args:
+            carta (DigiCarta): La carta a mostrar en detalle.
+        """
         if self.details_panel:
             self.page.overlay.remove(self.details_panel)
 
-        # Construir la URL de la imagen proxy
         self.details_panel = mostrar_detalle_carta(self.page, carta, self.cerrar_panel_detalles)
 
     def cerrar_panel_detalles(self, e):
-        # Cerrar el panel de detalles si se hace clic fuera de él
+        """
+        Cierra el panel de detalles de una carta.
+
+        Args:
+            e (Event): El evento que dispara el cierre del panel.
+        """
         self.page.overlay.remove(self.details_panel)
         self.details_panel = None
         self.page.update()

@@ -7,13 +7,27 @@ from .components import get_header, get_footer
 
 
 class LoginView:
+    """
+    Clase que maneja la vista de inicio de sesión utilizando el framework Flet.
+
+    """
+
     def __init__(self, page: ft.Page):
+        """
+        Inicializa una nueva instancia de la clase LoginView.
+
+        Args:
+            page (ft.Page): La página principal de la aplicación.
+        """
         page.vertical_alignment = ft.MainAxisAlignment.CENTER
         page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         page.adaptive = True
         self.page = page
 
     def mostrar(self):
+        """
+        Muestra la vista de inicio de sesión, configurando el layout y los controles.
+        """
         self.page.views.clear()
 
         self.username_or_email_input = ft.TextField(
@@ -152,6 +166,12 @@ class LoginView:
         self.page.update()
 
     def iniciar_sesion(self, e):
+        """
+        Maneja el inicio de sesión del usuario.
+
+        Args:
+            e (Event): El evento que dispara el inicio de sesión.
+        """
         username_or_email = self.username_or_email_input.value
         password = self.password_input.value
 
@@ -170,7 +190,6 @@ class LoginView:
                 print("Login successful:", result)
                 token = result["access_token"]
 
-                # Obtener el ID de usuario y nombre de usuario
                 user_response = requests.get(
                     "http://127.0.0.1:8001/me/",
                     headers={"Authorization": f"Bearer {token}"}
@@ -178,7 +197,6 @@ class LoginView:
                 user_response.raise_for_status()
                 user_info = user_response.json()
 
-                # Establecer el estado de la sesión
                 Session.login(user_info["id"], user_info["nombre"])
                 self.page.go('/user/')
             else:
@@ -189,4 +207,10 @@ class LoginView:
             print(f"An error occurred: {e}")
 
     def go_home(self, e):
+        """
+        Navega a la página de inicio.
+
+        Args:
+            e (Event): El evento que dispara la navegación.
+        """
         self.page.go('/')

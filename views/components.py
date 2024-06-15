@@ -10,15 +10,21 @@ def get_header(page: ft.Page):
         page.go('/')
 
     def cerrar_sesion(e):
-        print("Cerrando sesión...")  # Agregar declaración de impresión para depurar
+        print("Cerrando sesión...")
         Session.logout()
         print("Sesión cerrada. Estado de la sesión:", Session.logged_in)
-        # Redirigir a la página de inicio para recargar el estado
         page.go('/')
         page.update()
 
     header_controls = [
-        ft.IconButton(icon=ft.icons.HOME, on_click=go_home)
+        ft.Container(
+            ft.Image(
+                src='Logo.png',
+            height=50),
+            border_radius=ft.border_radius.all(5),
+            padding=ft.padding.all(0),
+            on_click=go_home
+        )
     ]
 
     if Session.logged_in:
@@ -46,7 +52,7 @@ def get_header(page: ft.Page):
         gradient=ft.LinearGradient(
             begin=ft.alignment.top_left,
             end=ft.alignment.bottom_right,
-            colors=[ft.colors.GREEN, ft.colors.BLUE],
+            colors=[ft.colors.PURPLE, ft.colors.BLUE],
         ),
         padding=ft.padding.all(10),
         margin=ft.margin.all(0),
@@ -78,9 +84,11 @@ def mostrar_detalle_carta(page, carta, cerrar_panel_detalles):
         crear_texto(f"Rarity: {carta.rarity}"),
         crear_texto(f"Artist: {carta.artist}"),
         crear_texto(f"DP: {carta.dp}"),
-        crear_texto(f"Main Effect: {carta.main_effect}"),
-        crear_texto(f"Source Effect: {carta.source_effect}")
     ]
+
+    # Crear los textos de Main Effect y Source Effect
+    main_effect_text = crear_texto(f"Main Effect: {carta.main_effect}")
+    source_effect_text = crear_texto(f"Source Effect: {carta.source_effect}")
 
     # Crear el contenedor de detalles de la carta
     details_panel = ft.Container(
@@ -97,6 +105,14 @@ def mostrar_detalle_carta(page, carta, cerrar_panel_detalles):
                         )
                     ],
                     alignment=ft.MainAxisAlignment.START,
+                ),
+                ft.Container(
+                    content=main_effect_text,
+                    padding=ft.padding.only(33)  # Añadir margen horizontal
+                ),
+                ft.Container(
+                    content=source_effect_text,
+                    padding=ft.padding.only(33)  # Añadir margen horizontal
                 )
             ],
             alignment=ft.MainAxisAlignment.START,
@@ -144,7 +160,7 @@ def get_footer(page: ft.Page):
         gradient=ft.LinearGradient(
             begin=ft.alignment.bottom_right,
             end=ft.alignment.top_left,
-            colors=[ft.colors.GREEN, ft.colors.BLUE],
+            colors=[ft.colors.PURPLE, ft.colors.BLUE],
         ),
         padding=ft.padding.all(10),
         margin=ft.margin.all(0),

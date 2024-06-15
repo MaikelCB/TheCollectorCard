@@ -2,11 +2,32 @@ import flet as ft
 import requests
 from .components import get_header, get_footer
 
+
 class RegistroView:
+    """
+    Clase que maneja la vista de registro de usuario utilizando el framework Flet.
+
+    Atributos:
+        page (ft.Page): La página principal de la aplicación.
+
+    Métodos:
+        mostrar(): Muestra la vista de registro de usuario.
+        registrar_usuario(e): Maneja el registro del usuario.
+    """
+
     def __init__(self, page: ft.Page):
+        """
+        Inicializa una nueva instancia de la clase RegistroView.
+
+        Args:
+            page (ft.Page): La página principal de la aplicación.
+        """
         self.page = page
 
     def mostrar(self):
+        """
+        Muestra la vista de registro de usuario, configurando el layout y los controles.
+        """
         self.page.views.clear()
 
         self.nombre_input = ft.TextField(
@@ -49,7 +70,6 @@ class RegistroView:
 
         header = get_header(self.page)
         footer = get_footer(self.page)
-
 
         container = ft.Container(
             ft.Column([
@@ -140,6 +160,12 @@ class RegistroView:
         self.page.update()
 
     def registrar_usuario(self, e):
+        """
+        Maneja el registro del usuario, enviando una solicitud POST a la API para registrar al usuario.
+
+        Args:
+            e (Event): El evento que dispara el registro del usuario.
+        """
         nombre = self.nombre_input.value
         email = self.email_input.value
         password = self.password_input.value
@@ -151,7 +177,6 @@ class RegistroView:
             self.page.update()
             return
 
-        # Hacer una solicitud POST a la API para registrar el usuario
         try:
             response = requests.post(
                 "http://127.0.0.1:8001/usuarios/",
@@ -164,7 +189,6 @@ class RegistroView:
             )
             response.raise_for_status()
 
-            # Verificar si la respuesta es JSON
             if response.headers.get("content-type") == "application/json":
                 result = response.json()
             else:

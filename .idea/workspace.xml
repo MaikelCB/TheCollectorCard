@@ -4,15 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88dff0ea-d08f-4d9f-9b90-384f7d37224d" name="Changes" comment="Reparación API y diseño. 13-06">
+    <list default="true" id="88dff0ea-d08f-4d9f-9b90-384f7d37224d" name="Changes" comment="Sustitución API publica por API propia. 14-06">
+      <change afterPath="$PROJECT_DIR$/assets/Logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/Portada.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/bcrypt_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/bcrypt_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/config_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/config_api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/digimonbanner.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fondo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icono.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/control/digicard_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control/digicard_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/control/user_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control/user_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/digicard.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/digicard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/usuario_cartas.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/usuario_cartas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proxy.py" beforeDir="false" afterPath="$PROJECT_DIR$/proxy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/components.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/components.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/home_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/home_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/interfaz.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/interfaz.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/login_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/login_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/recargar_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/recargar_view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/registro_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/registro_view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/usuario_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/usuario_view.py" afterDir="false" />
     </list>
@@ -54,20 +71,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.a.executor": "Run",
-    "Python.components.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.proxy.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/maike/PycharmProjects/TheCollectorCard"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.a.executor&quot;: &quot;Run&quot;,
+    &quot;Python.components.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.proxy.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/maike/PycharmProjects/TheCollectorCard/assets&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\assets" />
       <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\control" />
       <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\views" />
       <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\models" />
@@ -79,6 +97,35 @@
       <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\img" />
       <recent name="C:\Users\maike\PycharmProjects\TheCollectorCard\control" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TheCollectorCard" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -152,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718318385032</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Sustitución API publica por API propia. 14-06">
+      <option name="closed" value="true" />
+      <created>1718393888100</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1718393888101</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -164,6 +219,7 @@
     <MESSAGE value="View de usuario y optimización de codigo y vistas. 10-06" />
     <MESSAGE value="Pre-presentacion. Funcionalidades ampliadas y control de coleccion. 11-06" />
     <MESSAGE value="Reparación API y diseño. 13-06" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reparación API y diseño. 13-06" />
+    <MESSAGE value="Sustitución API publica por API propia. 14-06" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sustitución API publica por API propia. 14-06" />
   </component>
 </project>

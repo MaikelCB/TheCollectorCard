@@ -4,7 +4,17 @@ from .components import get_header, get_footer, mostrar_detalle_carta
 
 
 class HomeView:
+    """
+    Clase que maneja la vista de la página de inicio utilizando el framework Flet.
+    """
+
     def __init__(self, page: ft.Page):
+        """
+        Inicializa una nueva instancia de la clase HomeView.
+
+        Args:
+            page (ft.Page): La página principal de la aplicación.
+        """
         self.page = page
         self.digicard_controller = DigiCardController()
         self.details_panel = None
@@ -14,11 +24,14 @@ class HomeView:
         self.all_cards = []
         self.category_container = ft.Container()
         self.card_row_container = ft.Container()
-        self.filtrado_container = ft.Container()  # Contenedor para filtrado
-        self.pagination_container = ft.Container()  # Contenedor para paginación
+        self.filtrado_container = ft.Container()
+        self.pagination_container = ft.Container()
         self.digimon_visible = False
 
     def mostrar(self):
+        """
+        Muestra la vista de la página de inicio, configurando el layout y los contenedores.
+        """
         self.page.views.clear()
         self.filtrado_container.visible = False
         self.card_row_container.visible = False
@@ -26,6 +39,13 @@ class HomeView:
 
         header = get_header(self.page)
         footer = get_footer(self.page)
+
+        portada = ft.Container(
+            ft.Image(src='Portada.png'),
+            border_radius=ft.border_radius.all(5),
+            padding=ft.padding.only(top=20, bottom=20),
+            alignment=ft.alignment.center,
+        )
 
         category_containers1 = [
             ft.Container(
@@ -56,7 +76,6 @@ class HomeView:
                 on_click=self.cargar_yugioh
             )]
         category_containers2 = [
-
             ft.Container(
                 ft.Image(
                     src=self.digicard_controller.obtener_bannerpokemon_image(),
@@ -101,9 +120,7 @@ class HomeView:
             ),
         )
 
-        # Crear contenedor de cartas, inicialmente invisible
         self.card_row_container = ft.Container(
-
             margin=ft.margin.only(top=20),
             alignment=ft.alignment.center,
             expand=False,
@@ -111,12 +128,11 @@ class HomeView:
             animate_offset=ft.animation.Animation(1000),
         )
 
-        # Crear contenedor principal
         container = ft.Container(
-
             content=ft.Column(
                 controls=[
                     header,
+                    portada,
                     self.category_container,
                     self.filtrado_container,
                     self.card_row_container,
@@ -126,7 +142,6 @@ class HomeView:
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 expand=True,
                 scroll=ft.ScrollMode.ALWAYS
-
             ),
             alignment=ft.alignment.top_center,
             padding=ft.padding.all(0),
@@ -134,7 +149,6 @@ class HomeView:
             margin=ft.margin.all(0),
         )
 
-        # Añadir el contenedor a la vista
         self.page.views.append(ft.View(
             "/",
             controls=[container],
@@ -147,9 +161,21 @@ class HomeView:
         self.page.update()
 
     def go_home(self, e):
+        """
+        Navega a la página de inicio.
+
+        Args:
+            e (Event): El evento que dispara la navegación.
+        """
         self.page.go('/')
 
     def cargar_digimon(self, e):
+        """
+        Carga y muestra las cartas de Digimon.
+
+        Args:
+            e (Event): El evento que dispara la carga de cartas.
+        """
         if self.digimon_visible:
             self.filtrado_container.visible = False
             self.card_row_container.visible = False
@@ -167,26 +193,62 @@ class HomeView:
         self.page.update()
 
     def cargar_yugioh(self, e):
+        """
+        Carga y muestra las cartas de Yu-Gi-Oh!.
+
+        Args:
+            e (Event): El evento que dispara la carga de cartas.
+        """
         # Implementar lógica de carga de cartas de Yugioh
         pass
 
     def cargar_pokemon(self, e):
+        """
+        Carga y muestra las cartas de Pokémon.
+
+        Args:
+            e (Event): El evento que dispara la carga de cartas.
+        """
         # Implementar lógica de carga de cartas de Pokemon
         pass
 
     def cargar_magic(self, e):
-        # Implementar lógica de carga de cartas de Pokemon
+        """
+        Carga y muestra las cartas de Magic: The Gathering.
+
+        Args:
+            e (Event): El evento que dispara la carga de cartas.
+        """
+        # Implementar lógica de carga de cartas de Magic
         pass
 
     def cargar_onepiece(self, e):
-        # Implementar lógica de carga de cartas de Pokemon
+        """
+        Carga y muestra las cartas de One Piece.
+
+        Args:
+            e (Event): El evento que dispara la carga de cartas.
+        """
+        # Implementar lógica de carga de cartas de One Piece
         pass
 
     def cargar_lorcana(self, e):
-        # Implementar lógica de carga de cartas de Pokemon
+        """
+        Carga y muestra las cartas de Lorcana.
+
+        Args:
+            e (Event): El evento que dispara la carga de cartas.
+        """
+        # Implementar lógica de carga de cartas de Lorcana
         pass
 
     def mostrar_pagina(self, pagina):
+        """
+        Muestra las cartas de la página especificada.
+
+        Args:
+            pagina (int): El número de la página a mostrar.
+        """
         start_index = (pagina - 1) * self.cards_per_page
         end_index = start_index + self.cards_per_page
         cards_to_show = self.all_cards[start_index:end_index]
@@ -212,13 +274,15 @@ class HomeView:
         self.mostrar_paginacion()
 
     def mostrar_filtro(self):
+        """
+        Muestra el filtro de búsqueda de cartas.
+        """
         filtrado_row = ft.Row(
             controls=[
                 ft.Text("Filtro"),
                 ft.IconButton(icon=ft.icons.FILTER_LIST)
             ],
             alignment=ft.MainAxisAlignment.END,
-
         )
         self.filtrado_container.margin = ft.margin.only(right=10)
         self.filtrado_container.content = filtrado_row
@@ -226,6 +290,9 @@ class HomeView:
         self.page.update()
 
     def mostrar_paginacion(self):
+        """
+        Muestra la paginación para navegar entre páginas de cartas.
+        """
         if self.total_pages <= 1:
             self.pagination_container.visible = False
             self.page.update()
@@ -237,7 +304,7 @@ class HomeView:
             text = text or str(page_number)
             button = ft.TextButton(text, on_click=lambda e, p=page_number: self.actualizar_pagina(p))
             if page_number == self.current_page:
-                button.disabled = True  # Desactivar el botón de la página actual
+                button.disabled = True
             pagination_controls.append(button)
 
         add_button(1)
@@ -264,19 +331,34 @@ class HomeView:
         self.page.update()
 
     def actualizar_pagina(self, pagina):
+        """
+        Actualiza la página actual y muestra las cartas correspondientes.
+
+        Args:
+            pagina (int): El número de la página a mostrar.
+        """
         self.current_page = pagina
         self.mostrar_pagina(pagina)
 
     def mostrar_detalle_carta(self, carta):
-        # Cerrar cualquier panel de detalles abierto previamente
+        """
+        Muestra el panel de detalles de una carta específica.
+
+        Args:
+            carta (DigiCarta): La carta a mostrar en detalle.
+        """
         if self.details_panel:
             self.page.overlay.remove(self.details_panel)
 
-        # Llamar a la función para mostrar el detalle de la carta
         self.details_panel = mostrar_detalle_carta(self.page, carta, self.cerrar_panel_detalles)
 
     def cerrar_panel_detalles(self, e):
-        # Cerrar el panel de detalles si se hace clic fuera del panel
+        """
+        Cierra el panel de detalles de una carta.
+
+        Args:
+            e (Event): El evento que dispara el cierre del panel.
+        """
         self.page.overlay.remove(self.details_panel)
         self.details_panel = None
         self.page.update()

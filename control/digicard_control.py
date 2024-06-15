@@ -1,11 +1,9 @@
 import os
 import sqlite3
-from sqlalchemy.orm import Session
 import requests
 from api.models import DigiCartaBD
 from api.config import SessionLocal
 from models.digicard import DigiCarta
-from models.usuario_cartas import UsuarioCarta
 
 
 class DigiCardController:
@@ -13,19 +11,22 @@ class DigiCardController:
         self.api_url = "https://digimoncard.io/api-public/search.php?series=Digimon Card Game"
         self.proxy_url = "http://127.0.0.1:50739/proxy?url="
         self.api_base_url = "http://127.0.0.1:8001"
-
         self.db_path = '../db.collector.db'
         self.img_path = '../img/digicards'
-
         self.bannerdigimon_image_url = "https://millenniumgames.com/wp-content/uploads/2021/02/digimon-card-game-banner-e1613093475652.jpg"
         self.bannerpokemon_image_url = "https://www.boardsandswords.co.uk/cdn/shop/files/poke-hero_bac2afe6-8cfd-4937-bd90-f1069ce4e256_1800x.png"
         self.banneryugioh_image_url = "https://egdgames.com/storage/2024/06/banner-yugioh-tcg.webp"
         self.bannermagic_image_url = "https://static.posters.cz/image/hp/77610.jpg"
         self.banneronepiece_image_url = "https://www.gametrade.it/images/testate/onepiece_testata_gametrade.jpg"
         self.bannerlorcana_image_url = "https://www.waylandgames.co.uk/media/wysiwyg/Disney_Lorcana_Banner_1.jpg"
-        self.fondo_image_url = "https://www.teahub.io/photos/full/284-2849092_fondos-de-color-gris-oscuro.jpg"
 
     def obtener_digicartas(self):
+        """
+        Obtiene todas las cartas de Digimon de la base de datos.
+
+        Returns:
+            list: Una lista de instancias de DigiCarta.
+        """
         db = SessionLocal()
         try:
             digicartas_db = db.query(DigiCartaBD).all()
@@ -62,22 +63,61 @@ class DigiCardController:
             db.close()
 
     def obtener_imagen_carta(self, cardnumber):
+        """
+        Obtiene la URL de la imagen de una carta específica.
+
+        Args:
+            cardnumber (str): El número de la carta.
+
+        Returns:
+            str: La URL de la imagen de la carta.
+        """
         image_url = f"https://images.digimoncard.io/images/cards/{cardnumber}.jpg"
         return f"{self.proxy_url}{image_url}"
 
     def obtener_cartas_usuario(self, usuario_id):
+        """
+        Obtiene las cartas de un usuario específico.
+
+        Args:
+            usuario_id (int): El identificador del usuario.
+
+        Returns:
+            dict: Un diccionario con el número de la carta como clave y la cantidad como valor.
+        """
         response = requests.get(f"{self.api_base_url}/usuario_cartas/{usuario_id}")
         if response.status_code == 200:
             return {carta["cardnumber"]: carta["cantidad"] for carta in response.json()}
         return {}
 
     def obtener_cantidad_carta(self, usuario_id, cardnumber):
+        """
+        Obtiene la cantidad de una carta específica para un usuario.
+
+        Args:
+            usuario_id (int): El identificador del usuario.
+            cardnumber (str): El número de la carta.
+
+        Returns:
+            int: La cantidad de la carta para el usuario.
+        """
         response = requests.get(f"{self.api_base_url}/usuario_cartas/{usuario_id}/{cardnumber}")
         if response.status_code == 200:
             return response.json()["cantidad"]
         return 0
 
     def actualizar_cantidad_carta(self, usuario_id, cardnumber, cantidad):
+        """
+        Actualiza la cantidad de una carta específica para un usuario.
+
+        Args:
+            usuario_id (int): El identificador del usuario.
+            cardnumber (str): El número de la carta.
+            cantidad (int): La cantidad a actualizar.
+
+        Returns:
+            bool: True si la actualización fue exitosa, False en caso contrario.
+        """
         response = requests.post(f"{self.api_base_url}/usuario_cartas/", json={
             "usuario_id": usuario_id,
             "cardnumber": cardnumber,
@@ -85,28 +125,67 @@ class DigiCardController:
         })
         return response.status_code == 201
 
-    def obtener_fondo_image(self):
-        return f"{self.proxy_url}{self.fondo_image_url}"
-
     def obtener_bannerdigimon_image(self):
+        """
+        Obtiene la URL del banner de Digimon.
+
+        Returns:
+            str: La URL del banner de Digimon.
+        """
         return f"{self.proxy_url}{self.bannerdigimon_image_url}"
 
     def obtener_bannerpokemon_image(self):
+        """
+        Obtiene la URL del banner de Pokémon.
+
+        Returns:
+            str: La URL del banner de Pokémon.
+        """
         return f"{self.proxy_url}{self.bannerpokemon_image_url}"
 
     def obtener_banneryugioh_image(self):
+        """
+        Obtiene la URL del banner de Yu-Gi-Oh!.
+
+        Returns:
+            str: La URL del banner de Yu-Gi-Oh!.
+        """
         return f"{self.proxy_url}{self.banneryugioh_image_url}"
 
     def obtener_bannermagic_image(self):
+        """
+        Obtiene la URL del banner de Magic.
+
+        Returns:
+            str: La URL del banner de Magic.
+        """
         return f"{self.proxy_url}{self.bannermagic_image_url}"
 
     def obtener_banneronepiece_image(self):
+        """
+        Obtiene la URL del banner de One Piece.
+
+        Returns:
+            str: La URL del banner de One Piece.
+        """
         return f"{self.proxy_url}{self.banneronepiece_image_url}"
 
     def obtener_bannerlorcana_image(self):
+        """
+        Obtiene la URL del banner de Lorcana.
+
+        Returns:
+            str: La URL del banner de Lorcana.
+        """
         return f"{self.proxy_url}{self.bannerlorcana_image_url}"
 
     def guardar_carta_db(self, carta):
+        """
+        Guarda una carta en la base de datos.
+
+        Args:
+            carta (DigiCarta): La carta a guardar.
+        """
         conexion = sqlite3.connect(self.db_path)
         cursor = conexion.cursor()
 
@@ -130,6 +209,13 @@ class DigiCardController:
         conexion.close()
 
     def descargar_imagen(self, url, cardnumber):
+        """
+        Descarga y guarda una imagen de una carta.
+
+        Args:
+            url (str): La URL de la imagen.
+            cardnumber (str): El número de la carta.
+        """
         response = requests.get(url, stream=True)
         if response.status_code == 200:
             ruta_imagen = os.path.join(self.img_path, f"{cardnumber}.jpg")

@@ -4,23 +4,43 @@ from views.home_view import HomeView
 from views.login_view import LoginView
 from views.registro_view import RegistroView
 from views.usuario_view import UserView
-from views.recargar_view import RecargarView  # Importar la vista de recarga
+from views.recargar_view import RecargarView
 
 
 class Interfaz:
+    """
+    Clase que maneja la interfaz de usuario utilizando el framework Flet.
+
+    """
+
     def __init__(self, page: ft.Page):
+        """
+        Inicializa una nueva instancia de la clase Interfaz.
+
+        Args:
+            page (ft.Page): La página principal de la aplicación.
+        """
         self.page = page
         self.home_view = HomeView(page)
         self.login_view = LoginView(page)
         self.registro_view = RegistroView(page)
         self.usuario_view = UserView(page)
-        self.recargar_view = None  # Vista de recarga se crea dinámicamente
+        self.recargar_view = None
 
     def iniciar(self) -> None:
+        """
+        Inicializa el manejo de rutas y establece la ruta inicial.
+        """
         self.page.on_route_change = self.route_change
         self.page.go("/")
 
     def route_change(self, route):
+        """
+        Maneja el cambio de rutas y muestra la vista correspondiente.
+
+        Args:
+            route (str): La ruta actual de la aplicación.
+        """
         if self.page.route == "/":
             self.home_view.mostrar()
         elif self.page.route == "/login/":

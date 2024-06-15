@@ -3,6 +3,9 @@ class DigiCarta:
                  evolution_level, xros_req, color, color2, digi_type, digi_type2, form,
                  dp, attribute, rarity, stage, artist, main_effect, source_effect,
                  alt_effect, series, image_url=None):
+        """
+        Inicializa una nueva instancia de la clase DigiCarta.
+        """
         self.name = name
         self.type = type
         self.id = id
